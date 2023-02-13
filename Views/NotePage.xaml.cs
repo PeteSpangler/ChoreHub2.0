@@ -1,4 +1,4 @@
-namespace ChoreHub2._0;
+namespace ChoreHub2._0.Views;
 
 public partial class NotePage : ContentPage
 {
