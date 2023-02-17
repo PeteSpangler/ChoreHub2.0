@@ -7,6 +7,7 @@
         <Editor x:Name="TextEditor"
                 Placeholder="Enter your note"
                 Text="{Binding Text}"
+                AutoSize="TextChanges"
                 HeightRequest="100"/>
         <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
             <Button Text="Save"
