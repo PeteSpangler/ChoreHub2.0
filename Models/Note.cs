@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChoreHub2._0.Models
 {
-    internal class Notes
+    internal class Note
     {
         public string Filename { get; set; }
         public string Text { get; set; }
