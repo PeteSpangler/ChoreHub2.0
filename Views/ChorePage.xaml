@@ -7,7 +7,7 @@
     <ContentPage.BindingContext>
         <viewModels:ChoreViewModel />
     </ContentPage.BindingContext>
-    <VerticalStackLayout Spacing="20" Margin="15">
+    <VerticalStackLayout Spacing="35" Margin="5">
         <Label Text="Who is doing the chore?" />
         <Entry Text="{Binding Assignee}" />
 
@@ -16,6 +16,9 @@
 
         <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}"/>
         <Slider Value="{Binding Priority, Mode=TwoWay}" Minimum="0" Maximum="10" />
+
+        <Button Text="Take Photo" Command="{Binding TakePhoto}"/>
+        <Image Source="{Binding Picture}"/>
 
         <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
             <Button Text="Save"
