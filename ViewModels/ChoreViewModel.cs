@@ -40,7 +40,7 @@ namespace ChoreHub2._0.ViewModels
                 }
             }
         }
-        public string Picture
+        public byte Picture
         {
             get => _chore.Picture;
             set
@@ -127,7 +127,7 @@ namespace ChoreHub2._0.ViewModels
         {
             if (query.ContainsKey("load"))
             {
-                _chore = new Chore.Load(query["load"].ToString());
+                _chore = new Chore();
                 RefreshProperties();
             }
            
@@ -135,7 +135,7 @@ namespace ChoreHub2._0.ViewModels
         //set reload method
         public void Reload()
         {
-            _chore = new Chore.Load(_chore.Filename);
+            _chore = new Chore();
             RefreshProperties();
         }
         //set refresh properties method

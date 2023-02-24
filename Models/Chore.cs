@@ -13,7 +13,7 @@ namespace ChoreHub2._0.Models
 
         public string Assigner { get; set; }
         public string Assignee { get; set; }
-        public string Picture { get; set; }
+        public byte Picture { get; set; }
         public string Description { get; set; }
         public int Priority { get; set; }
         public int Rating { get; set; }
@@ -25,7 +25,7 @@ namespace ChoreHub2._0.Models
             Filename = $"{Path.GetRandomFileName()}.chore.json";
             Assigner = "";
             Assignee = "";
-            Picture = "";
+            Picture = 0;
             Description = "";
             Priority = 0;
             Rating = 0;

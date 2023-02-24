@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ChoreHub2._0.Views.AllChoresPage"
              xmlns:viewModels="clr-namespace:ChoreHub2._0.ViewModels"
-             x:Class="ChoreHub2._0.Views.AllNotesPage"
              xmlns:model="clr-namespace:ChoreHub2._0.Models"
-             Title="Your Notes"
+             Title="AllChoresPage"
              NavigatedTo="ContentPage_NavigatedTo">
     <ContentPage.BindingContext>
-        <viewModels:NotesViewModel />
+        <viewModels:AllChoresViewModel />
     </ContentPage.BindingContext>
-    <!-- Add an item to the toolbar -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding NewCommand}" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
+        <ToolbarItem Text="Add" Command="{Binding NewChoreCommand}" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
     </ContentPage.ToolbarItems>
-    
-    <!-- Display notes in a list -->
-    <CollectionView x:Name="notesCollection" x:FieldModifier="internal"
-                        ItemsSource="{Binding AllNotes}"
+    <CollectionView x:Name="choreCollection" x:FieldModifier="internal"
+                        ItemsSource="{Binding AllChores}"
                         Margin="20"
                         SelectionMode="Single"
-                        SelectionChangedCommand="{Binding SelectNoteCommand}"
+                        SelectionChangedCommand="{Binding SelectChoreCommand}"
                         SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
         <!-- Designate how the collection of items are laid out -->
         <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
         </CollectionView.ItemsLayout>
-
         <!-- Define the appearance of each item in the list -->
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout>
-                    <Label Text="{Binding Text}" FontSize="22"/>
-                    <Label Text="{Binding Date}" FontSize="14" TextColor="Silver"/>
+                    <Label Text="{Binding Description}" FontSize="14" TextColor="Silver"/>
+                    <Image Source="{Binding Picture}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100" />
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>

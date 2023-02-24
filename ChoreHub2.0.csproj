@@ -49,27 +49,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Views\AllChoresPage.xaml.cs" />
-	  <Compile Remove="Views\ChorePage.xaml.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Remove="Views\AllChoresPage.xaml" />
-	  <MauiXaml Remove="Views\ChorePage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="Resources\Fonts\IBMPlexSans-Regular.ttf" />
 	  <None Remove="Resources\Fonts\IBMPlexSans-SemiBold.ttf" />
 	  <None Remove="Resources\Images\icon_about.png" />
 	  <None Remove="Resources\Images\icon_about_ios.png" />
 	  <None Remove="Resources\Images\icon_notes.png" />
 	  <None Remove="Resources\Images\icon_notes_ios.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Include="Views\AllChoresPage.xaml.cs" />
-	  <MauiXaml Include="Views\ChorePage.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
