@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ChoreHub2._0.ViewModels"
              x:Class="ChoreHub2._0.Views.AllNotesPage"
+             xmlns:model="clr-namespace:ChoreHub2._0.Models"
+             x:DataType="viewModels:AboutViewModel"
              Title="Your Notes"
              NavigatedTo="ContentPage_NavigatedTo">
     <ContentPage.BindingContext>
@@ -14,8 +16,8 @@
     </ContentPage.ToolbarItems>
     
     <!-- Display notes in a list -->
-    <CollectionView x:Name="notesCollection"
-                        ItemsSource="{Binding Notes}"
+    <CollectionView x:Name="notesCollection" x:FieldModifier="internal"
+                        ItemsSource="{Binding AllNotes}"
                         Margin="20"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding SelectNoteCommand}"
