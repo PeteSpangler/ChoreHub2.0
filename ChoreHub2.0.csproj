@@ -49,6 +49,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Views\AllChoresPage.xaml.cs" />
+	  <Compile Remove="Views\ChorePage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Remove="Views\AllChoresPage.xaml" />
 	  <MauiXaml Remove="Views\ChorePage.xaml" />
 	</ItemGroup>
@@ -63,12 +68,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Views\AllChoresPage.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Views\ChorePage.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </EmbeddedResource>
+	  <MauiXaml Include="Views\AllChoresPage.xaml.cs" />
+	  <MauiXaml Include="Views\ChorePage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AllChoresPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChorePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
