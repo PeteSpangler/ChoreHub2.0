@@ -28,6 +28,18 @@ internal class NoteViewModel : ObservableObject, IQueryAttributable
     }
 
     public DateTime Date => _note.Date;
+    public int Priority
+    {
+        get => _note.Priority;
+        set
+        {
+            if (_note.Priority != value)
+            {
+                _note.Priority = value;
+                OnPropertyChanged();
+            }
+        }
+    }
 
     public string Identifier => _note.Filename;
 
@@ -79,5 +91,6 @@ internal class NoteViewModel : ObservableObject, IQueryAttributable
     {
         OnPropertyChanged(nameof(Text));
         OnPropertyChanged(nameof(Date));
+        OnPropertyChanged(nameof(Priority));
     }
 }

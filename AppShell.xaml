@@ -14,12 +14,7 @@
 
         <ShellContent
             Title="About"
-            ContentTemplate="{DataTemplate views:AllChoresPage}"
-            Icon="{OnPlatform 'icon_about.png', iOS='icon_about_ios.png', MacCatalyst='icon_about_ios.png'}"/>
-
-        <ShellContent
-            Title="Chores"
-            ContentTemplate="{DataTemplate views:ChorePage}"
+            ContentTemplate="{DataTemplate views:AboutPage}"
             Icon="{OnPlatform 'icon_about.png', iOS='icon_about_ios.png', MacCatalyst='icon_about_ios.png'}"/>
     </TabBar>
     

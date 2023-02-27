@@ -13,6 +13,8 @@
                 Text="{Binding Text}"
                 AutoSize="TextChanges"
                 HeightRequest="100"/>
+        <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}"/>
+        <Slider Value="{Binding Priority, Mode=TwoWay}" Minimum="0" Maximum="10" />
         <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
             <Button Text="Save"
                     Command="{Binding SaveCommand}" />

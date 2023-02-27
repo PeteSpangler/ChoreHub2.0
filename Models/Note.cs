@@ -11,12 +11,14 @@ namespace ChoreHub2._0.Models
         public string Filename { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
+        public int Priority { get; set; }
 
         public Note() 
         {
             Filename = $"{Path.GetRandomFileName()}.notes.txt";
             Date = DateTime.Now;
             Text = "";
+            Priority = 0;
         }
 
         public void Save() =>
@@ -38,6 +40,7 @@ namespace ChoreHub2._0.Models
                     Filename = Path.GetFileName(filename),
                     Text = File.ReadAllText(filename),
                     Date = File.GetLastWriteTime(filename),
+                    Priority = 5
                 };
         }
 
