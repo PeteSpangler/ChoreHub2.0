@@ -16,10 +16,10 @@
         <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}"/>
         <Slider Value="{Binding Priority, Mode=TwoWay}" Minimum="0" Maximum="10" />
         <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
-            <Button Text="Save"
+            <Button Text="Save Note"
                     Command="{Binding SaveCommand}" />
             <Button Grid.Column="1"
-                    Text="Delete"
+                    Text="Delete this Note"
                     Command="{Binding DeleteCommand}" />
         </Grid>
     </VerticalStackLayout>

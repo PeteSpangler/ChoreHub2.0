@@ -34,15 +34,21 @@ namespace ChoreHub2._0.Models
             if (!File.Exists(filename))
                 throw new FileNotFoundException("Unable to find file on local storage", filename);
 
-            return
-                new()
-                {
-                    Filename = Path.GetFileName(filename),
-                    Text = File.ReadAllText(filename),
-                    Date = File.GetLastWriteTime(filename),
-                    Priority = 5
-                };
+            var note = new Note()
+            {
+                Filename = Path.GetFileName(filename),
+                Text = File.ReadAllText(filename),
+                Date = File.GetLastWriteTime(filename),
+            };
+
+            if (int.TryParse(File.ReadAllLines(filename).FirstOrDefault(), out int priority))
+            {
+                note.Priority = priority;
+            }
+
+            return note;
         }
+
 
         public static IEnumerable<Note> LoadAll() 
         {

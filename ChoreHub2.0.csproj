@@ -71,4 +71,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionChoreHub20HideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
