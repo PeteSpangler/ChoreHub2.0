@@ -21,8 +21,16 @@ namespace ChoreHub2._0.Models
             Priority = 0;
         }
 
-        public void Save() =>
-            File.WriteAllText(System.IO.Path.Combine(FileSystem.AppDataDirectory, Filename), Text);
+        public void Save()
+        {
+            string filePath = System.IO.Path.Combine(FileSystem.AppDataDirectory, Filename);
+
+            // Combine the priority value and the text content with a delimiter to save them in a single file
+            string content = $"{Priority}\n{Text}";
+
+            File.WriteAllText(filePath, content);
+        }
+
 
         public void Delete() =>
             File.Delete(System.IO.Path.Combine(FileSystem.AppDataDirectory, Filename));
@@ -50,6 +58,7 @@ namespace ChoreHub2._0.Models
         }
 
 
+
         public static IEnumerable<Note> LoadAll() 
         {
             string appDataPath = FileSystem.AppDataDirectory;
@@ -60,7 +69,7 @@ namespace ChoreHub2._0.Models
 
                 .Select(filename => Note.Load(Path.GetFileName(filename)))
 
-                .OrderByDescending(note => note.Date);
+                .OrderByDescending(note => note.Priority);
         }
     }
 }
