@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using ChoreHub2._0.Models;
 
@@ -18,7 +14,9 @@ namespace ChoreHub2._0.ViewModels
 
         public NotesViewModel()
         {
-            AllNotes = new ObservableCollection<NoteViewModel>(Models.Note.LoadAll().Select(n => new NoteViewModel(n)));
+            AllNotes = new ObservableCollection<NoteViewModel>(Models.Note.LoadAll()
+                .OrderByDescending(n => n.Priority)
+                .Select(n => new NoteViewModel(n)));
             NewCommand = new AsyncRelayCommand(NewNoteAsync);
             SelectNoteCommand = new AsyncRelayCommand<NoteViewModel>(SelectNoteAsync);
         }
@@ -55,12 +53,17 @@ namespace ChoreHub2._0.ViewModels
                 {
                     matchedNote.Reload();
                     AllNotes.Move(AllNotes.IndexOf(matchedNote), 0);
+                    AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
+
                 }
-                    
 
                 // If note isn't found, it's new; add it.
                 else
+                {
                     AllNotes.Insert(0, new NoteViewModel(Note.Load(noteId)));
+                    AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
+                    
+                }
             }
         }
     }

@@ -45,17 +45,17 @@ namespace ChoreHub2._0.Models
             var note = new Note()
             {
                 Filename = Path.GetFileName(filename),
-                Text = File.ReadAllText(filename),
                 Date = File.GetLastWriteTime(filename),
             };
 
-            if (int.TryParse(File.ReadAllLines(filename).FirstOrDefault(), out int priority))
-            {
-                note.Priority = priority;
-            }
+            // Read the file contents, excluding the first line (priority)
+            var fileLines = File.ReadAllLines(filename);
+            note.Priority = int.Parse(fileLines[0]);
+            note.Text = string.Join(Environment.NewLine, fileLines.Skip(1));
 
             return note;
         }
+
 
 
 

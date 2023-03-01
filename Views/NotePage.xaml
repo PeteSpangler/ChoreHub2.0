@@ -7,7 +7,7 @@
     <ContentPage.BindingContext>
         <viewModels:NoteViewModel />
     </ContentPage.BindingContext>
-    <VerticalStackLayout Spacing="10" Margin="5">
+    <VerticalStackLayout Spacing="40" Margin="10">
         <Editor x:Name="TextEditor"
                 Placeholder="Enter your note"
                 Text="{Binding Text}"
@@ -15,7 +15,7 @@
                 HeightRequest="100"/>
         <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}"/>
         <Slider Value="{Binding Priority, Mode=TwoWay}" Minimum="0" Maximum="10" />
-        <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="4" RowSpacing="4">
             <Button Text="Save Note"
                     Command="{Binding SaveCommand}" />
             <Button Grid.Column="1"
