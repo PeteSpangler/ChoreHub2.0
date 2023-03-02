@@ -15,8 +15,8 @@ public static class MauiProgram
 				fonts.AddFont("IBMPlexSans-Semibold.ttf", "IBMPlexSansSemibold");
 			});
 
-		string dbPath = FileAccessHelper.GetLocalFilePath("user.db3");
-		builder.Services.AddSingleton<UserRepository>(s => ActivatorUtilities.CreateInstance<UserRepository>(s, dbPath));
+		string dbPath = FileAccessHelper.GetLocalFilePath("notes.db3");
+		builder.Services.AddSingleton<NoteRepository>(s => ActivatorUtilities.CreateInstance<NoteRepository>(s, dbPath));
 
 		return builder.Build();
 	}

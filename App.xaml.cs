@@ -2,13 +2,13 @@
 
 public partial class App : Application
 {
-	public static UserRepository UserRepo { get; private set; }
-    public App(UserRepository repo)
+	public static NoteRepository NoteRepo { get; private set; }
+    public App(NoteRepository repo)
 	{
-		InitializeComponent();
+        InitializeComponent();
 
 		MainPage = new AppShell();
 
-		UserRepo = repo;
+		NoteRepo = repo;
 	}
 }

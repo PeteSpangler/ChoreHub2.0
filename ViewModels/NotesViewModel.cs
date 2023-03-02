@@ -1,35 +1,47 @@
-﻿using System.Collections.ObjectModel;
-
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using ChoreHub2._0.Models;
+using ChoreHub2._0.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using SQLite;
 
 namespace ChoreHub2._0.ViewModels
 {
-    internal class NotesViewModel : IQueryAttributable
+    public class NotesViewModel : ObservableRecipient, IQueryAttributable
     {
-        public ObservableCollection<ViewModels.NoteViewModel> AllNotes { get; private set; }
+        private readonly NoteRepository _noteRepository;
+
+        public ObservableCollection<NoteViewModel> AllNotes { get; private set; }
+
         public ICommand NewCommand { get; }
         public ICommand SelectNoteCommand { get; }
 
-        public NotesViewModel()
+        public NotesViewModel(NoteRepository noteRepository)
         {
-            AllNotes = new ObservableCollection<NoteViewModel>(Models.Note.LoadAll()
-                .OrderByDescending(n => n.Priority)
-                .Select(n => new NoteViewModel(n)));
+            _noteRepository = noteRepository;
+
             NewCommand = new AsyncRelayCommand(NewNoteAsync);
-            SelectNoteCommand = new AsyncRelayCommand<NoteViewModel>(SelectNoteAsync);
+            SelectNoteCommand = new AsyncRelayCommand(SelectNoteAsync);
+
+            // Load all notes from the repository and order them by priority
+            AllNotes = new ObservableCollection<NoteViewModel>(
+                _noteRepository.GetAllNotes().OrderByDescending(n => n.Priority).Select(n => new NoteViewModel(n)));
         }
 
         private async Task NewNoteAsync()
         {
-            await Shell.Current.GoToAsync(nameof(Views.NotePage));
+            await Task.CompletedTask;
+            // Code to handle creating a new note goes here
         }
 
-        private async Task SelectNoteAsync(NoteViewModel note)
+        private async Task SelectNoteAsync()
         {
-            if (note != null)
-                await Shell.Current.GoToAsync($"{nameof(Views.NotePage)}?load={note.Identifier}");
+            await Task.CompletedTask;
+            // Code to handle selecting a note goes here
         }
 
         void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
@@ -37,7 +49,7 @@ namespace ChoreHub2._0.ViewModels
             if (query.ContainsKey("deleted"))
             {
                 string noteId = query["deleted"].ToString();
-                NoteViewModel matchedNote = AllNotes.Where((n) => n.Identifier == noteId).FirstOrDefault();
+                NoteViewModel matchedNote = AllNotes.FirstOrDefault((n) => n.Note.Id == noteId)?.Note;
 
                 // If note exists, delete it
                 if (matchedNote != null)
@@ -46,7 +58,7 @@ namespace ChoreHub2._0.ViewModels
             else if (query.ContainsKey("saved"))
             {
                 string noteId = query["saved"].ToString();
-                NoteViewModel matchedNote = AllNotes.Where((n) => n.Identifier == noteId).FirstOrDefault();
+                NoteViewModel matchedNote = AllNotes.FirstOrDefault((n) => n.Note.Id == noteId)?.Note;
 
                 // If note is found, update it
                 if (matchedNote != null)
@@ -54,17 +66,16 @@ namespace ChoreHub2._0.ViewModels
                     matchedNote.Reload();
                     AllNotes.Move(AllNotes.IndexOf(matchedNote), 0);
                     AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
-
                 }
-
                 // If note isn't found, it's new; add it.
                 else
                 {
-                    AllNotes.Insert(0, new NoteViewModel(Note.Load(noteId)));
+                    var note = _noteRepository.GetNoteById(noteId);
+                    AllNotes.Insert(0, new NoteViewModel(note));
                     AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
-                    
                 }
             }
         }
+
     }
 }
