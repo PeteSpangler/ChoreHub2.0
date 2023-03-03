@@ -19,7 +19,7 @@ namespace ChoreHub2._0.Models
         public Note()
         {
             Date = DateTime.Now;
-            Text = "";
+            Text = " ";
             Priority = 0;
         }
     }

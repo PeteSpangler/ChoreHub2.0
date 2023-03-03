@@ -1,114 +1,53 @@
-﻿using System;
+﻿using ChoreHub2._0.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
-using ChoreHub2._0.Models;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace ChoreHub2._0.ViewModels
 {
-    public class NoteViewModel : ObservableObject, IQueryAttributable
+    public class NoteViewModel : INotifyPropertyChanged
     {
-        private Note _note;
         private readonly NoteRepository _noteRepository;
-
-        public Note Note
-        {
-            get => _note;
-            set => SetProperty(ref _note, value);
-        }
-
-        public string Text
-        {
-            get => _note.Text;
-            set
-            {
-                if (_note.Text != value)
-                {
-                    _note.Text = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public DateTime Date => _note.Date;
-
-        public int Priority
-        {
-            get => _note.Priority;
-            set
-            {
-                if (_note.Priority != value)
-                {
-                    _note.Priority = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public int Id => _note.Id;
-
-        public ICommand SaveCommand { get; private set; }
-        public ICommand DeleteCommand { get; private set; }
 
         public NoteViewModel(NoteRepository noteRepository)
         {
-            _note = new Note();
             _noteRepository = noteRepository;
-            SetupCommands();
         }
 
-        public NoteViewModel(Note note, NoteRepository noteRepository)
+        private List<Note> _notes;
+        public List<Note> Notes
         {
-            _note = note;
-            _noteRepository = noteRepository;
-            SetupCommands();
-        }
-
-        private void SetupCommands()
-        {
-            SaveCommand = new AsyncRelayCommand(Save);
-            DeleteCommand = new AsyncRelayCommand(Delete);
-        }
-
-        private async Task Save()
-        {
-            _note.Date = DateTime.Now;
-            await _noteRepository.AddOrUpdateNoteAsync(_note);
-            await Shell.Current.GoToAsync($"..?saved={_note.Id}");
-        }
-
-        private async Task Delete()
-        {
-            await _noteRepository.DeleteNoteAsync(_note);
-            await Shell.Current.GoToAsync($"..?deleted={_note.Id}");
-        }
-
-        void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            if (query.ContainsKey("load"))
+            get { return _notes; }
+            set
             {
-                int noteId = int.Parse(query["load"].ToString());
-                _note = _noteRepository.GetNoteById(noteId).Result;
-                RefreshProperties();
+                _notes = value;
+                OnPropertyChanged();
             }
         }
 
-        public async Task Refresh()
+        public async Task LoadNotesAsync()
         {
-            _note = await _noteRepository.GetNoteById(_note.Id);
-            RefreshProperties();
+            Notes = await _noteRepository.GetAllNotes();
         }
 
-        private void RefreshProperties()
+        public async Task AddOrUpdateNoteAsync(Note note)
         {
-            OnPropertyChanged(nameof(Text));
-            OnPropertyChanged(nameof(Date));
-            OnPropertyChanged(nameof(Priority));
+            await _noteRepository.AddOrUpdateNoteAsync(note);
+            await LoadNotesAsync();
+        }
+
+        public async Task DeleteNoteAsync(Note note)
+        {
+            await _noteRepository.DeleteNoteAsync(note);
+            await LoadNotesAsync();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

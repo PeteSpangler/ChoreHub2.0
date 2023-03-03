@@ -15,5 +15,11 @@ namespace ChoreHub2._0.Models
 
         [MaxLength(250)]
         public string Name { get; set; }
+
+        public int ChoresCompleted { get; set; }
+
+        public int Rating { get; set; }
+
+        public double ChoreScore => Rating / (double)ChoresCompleted;
     }
 }
