@@ -1,4 +1,6 @@
-﻿namespace ChoreHub2._0;
+﻿using ChoreHub2._0.Repositories;
+
+namespace ChoreHub2._0;
 
 public partial class App : Application
 {

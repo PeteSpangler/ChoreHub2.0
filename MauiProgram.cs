@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ChoreHub2._0.Repositories;
 
 namespace ChoreHub2._0;
 

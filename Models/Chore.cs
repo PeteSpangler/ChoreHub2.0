@@ -22,5 +22,6 @@ namespace ChoreHub2._0.Models
         public string Description { get; set; }
 
         public byte[] Picture { get; set; }
+        public bool IsDone { get; set; }
     }
 }

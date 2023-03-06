@@ -1,6 +1,7 @@
 ﻿using ChoreHub2._0.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using ChoreHub2._0.Repositories;
 
 namespace ChoreHub2._0.ViewModels
 {

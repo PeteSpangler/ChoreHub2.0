@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using ChoreHub2._0.Repositories;
+using System.Windows.Input;
 
 namespace ChoreHub2._0.ViewModels
 {
@@ -13,6 +15,8 @@ namespace ChoreHub2._0.ViewModels
         public NoteViewModel(NoteRepository noteRepository)
         {
             _noteRepository = noteRepository;
+            SaveCommand = new Command(async () => await SaveNoteAsync());
+            DeleteCommand = new Command(async () => await DeleteNoteAsync());
         }
 
         private List<Note> _notes;
@@ -26,19 +30,54 @@ namespace ChoreHub2._0.ViewModels
             }
         }
 
+        private string _text;
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _priority;
+        public int Priority
+        {
+            get { return _priority; }
+            set
+            {
+                _priority = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+
         public async Task LoadNotesAsync()
         {
             Notes = await _noteRepository.GetAllNotes();
         }
 
-        public async Task AddOrUpdateNoteAsync(Note note)
+        private async Task SaveNoteAsync()
         {
+            Note note = new Note
+            {
+                Text = Text,
+                Priority = Priority
+            };
             await _noteRepository.AddOrUpdateNoteAsync(note);
             await LoadNotesAsync();
         }
 
-        public async Task DeleteNoteAsync(Note note)
+        private async Task DeleteNoteAsync()
         {
+            Note note = new Note
+            {
+                Text = Text,
+                Priority = Priority
+            };
             await _noteRepository.DeleteNoteAsync(note);
             await LoadNotesAsync();
         }

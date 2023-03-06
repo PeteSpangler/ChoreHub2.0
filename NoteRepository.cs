@@ -1,7 +1,9 @@
 ﻿using ChoreHub2._0.Models;
 using SQLite;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace ChoreHub2._0
+namespace ChoreHub2._0.Repositories
 {
     public class NoteRepository
     {
@@ -15,8 +17,11 @@ namespace ChoreHub2._0
 
         public async Task<List<Note>> GetAllNotes()
         {
-            return await _database.Table<Note>().ToListAsync();
+            return await _database.Table<Note>()
+                                   .OrderByDescending(n => n.Priority)
+                                   .ToListAsync();
         }
+
 
         public async Task<Note> GetNoteById(int id)
         {
