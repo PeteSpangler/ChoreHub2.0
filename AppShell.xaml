@@ -11,7 +11,7 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:Home}"
-        Icon="{OnPlatform 'icon.png', iOS='adaptive_icon.png', MacCatalyst='adaptive_icon.png'}"/>  
+        Icon="{OnPlatform 'smallchorehub.png', iOS='adaptive_icon.png', MacCatalyst='adaptive_icon.png'}"/>  
         
     <ShellContent
             Title="Notes"

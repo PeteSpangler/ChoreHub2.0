@@ -1,20 +1,37 @@
 ﻿using System.Collections.ObjectModel;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using ChoreHub2._0.Models;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ChoreHub2._0.ViewModels
 {
-    internal class NotesViewModel : IQueryAttributable
+    internal class NotesViewModel : INotifyPropertyChanged, IQueryAttributable
     {
+        bool isRefreshing;
+        public bool IsRefreshing
+        {
+            get { return isRefreshing; }
+            set
+            {
+                if (isRefreshing != value)
+                {
+                    isRefreshing = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<ViewModels.NoteViewModel> AllNotes { get; private set; }
         public ICommand NewCommand { get; }
         public ICommand SelectNoteCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         public NotesViewModel()
         {
-            AllNotes = new ObservableCollection<NoteViewModel>(Models.Note.LoadAll()
+            AllNotes = new ObservableCollection<NoteViewModel>(Note.LoadAll()
                 .OrderByDescending(n => n.Priority)
                 .Select(n => new NoteViewModel(n)));
             NewCommand = new AsyncRelayCommand(NewNoteAsync);
@@ -54,17 +71,21 @@ namespace ChoreHub2._0.ViewModels
                     matchedNote.Reload();
                     AllNotes.Move(AllNotes.IndexOf(matchedNote), 0);
                     AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
-
                 }
-
                 // If note isn't found, it's new; add it.
                 else
                 {
                     AllNotes.Insert(0, new NoteViewModel(Note.Load(noteId)));
                     AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
-                    
                 }
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }
