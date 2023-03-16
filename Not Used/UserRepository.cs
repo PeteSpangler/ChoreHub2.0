@@ -1,10 +1,5 @@
 ﻿using ChoreHub2._0.Models;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChoreHub2._0
 {
@@ -39,7 +34,7 @@ namespace ChoreHub2._0
                 if (string.IsNullOrEmpty(name))
                     throw new Exception("Valid name required");
 
-                result = await conn.InsertAsync(new User { Name = name });
+                result = await conn.InsertAsync(new User { FullName = name });
 
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, name);
             }
@@ -64,6 +59,11 @@ namespace ChoreHub2._0
             }
 
             return new List<User>();
+        }
+
+        internal Task<List<User>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
