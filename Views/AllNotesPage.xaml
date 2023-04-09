@@ -13,7 +13,6 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding NewCommand}" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
     </ContentPage.ToolbarItems>
-    <RefreshView IsRefreshing="{Binding IsRefreshing}" RefreshColor="Aquamarine" Command="{Binding RefreshCommand}">
     <!-- Display notes in a list -->
     <CollectionView x:Name="notesCollection" x:FieldModifier="internal"
                         ItemsSource="{Binding AllNotes}"
@@ -37,5 +36,4 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
-    </RefreshView>
 </ContentPage>

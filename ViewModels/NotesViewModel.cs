@@ -10,24 +10,10 @@ namespace ChoreHub2._0.ViewModels
 {
     internal class NotesViewModel : INotifyPropertyChanged, IQueryAttributable
     {
-        bool isRefreshing;
-        public bool IsRefreshing
-        {
-            get { return isRefreshing; }
-            set
-            {
-                if (isRefreshing != value)
-                {
-                    isRefreshing = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         public ObservableCollection<ViewModels.NoteViewModel> AllNotes { get; private set; }
         public ICommand NewCommand { get; }
         public ICommand SelectNoteCommand { get; }
-        public ICommand RefreshCommand { get; }
 
         public NotesViewModel()
         {
@@ -69,15 +55,21 @@ namespace ChoreHub2._0.ViewModels
                 if (matchedNote != null)
                 {
                     matchedNote.Reload();
-                    AllNotes.Move(AllNotes.IndexOf(matchedNote), 0);
-                    AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
+                    AllNotes.Remove(matchedNote);
                 }
-                // If note isn't found, it's new; add it.
-                else
+
+                var indexOfNewElement = 0;
+                // find index for new element
+                var newNote = Note.Load(noteId);
+                for (int i = 0; i < AllNotes.Count; i++)
                 {
-                    AllNotes.Insert(0, new NoteViewModel(Note.Load(noteId)));
-                    AllNotes = new ObservableCollection<NoteViewModel>(AllNotes.OrderByDescending(n => n.Priority));
+                    if (AllNotes[i].Priority < newNote.Priority)
+                    {
+                        indexOfNewElement = i;
+                        break;
+                    }
                 }
+                AllNotes.Insert(indexOfNewElement, new NoteViewModel(newNote));
             }
         }
 
