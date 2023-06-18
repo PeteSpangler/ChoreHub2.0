@@ -1,12 +1,27 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ChoreHub2._0.Views.Home"
+             BackgroundColor="#DFD8F7"
              Title="Home">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to ChoreHub 2.0!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid VerticalOptions="CenterAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Logo -->
+        <Image Source="icon.png"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Aspect="AspectFit"
+               HeightRequest="200" />
+
+        <!-- Welcome Text -->
+        <Label Text="Welcome to ChoreHub!"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="24"
+               FontAttributes="Bold"
+               Grid.Row="1" />
+    </Grid>
 </ContentPage>
