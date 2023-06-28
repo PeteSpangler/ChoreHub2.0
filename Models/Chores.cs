@@ -13,5 +13,8 @@ namespace ChoreHub2._0.Models
         public int AssignerId { get; set; }
 
         public int AssigneeId { get; set; }
+
+        public byte[] Photo { get; set; }
+
     }
 }

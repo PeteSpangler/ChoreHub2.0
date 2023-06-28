@@ -15,6 +15,17 @@
                 HeightRequest="100"/>
         <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}"/>
         <Slider Value="{Binding Priority, Mode=TwoWay}" Minimum="0" Maximum="10" />
+
+        <!-- Image Button to Take a Photo -->
+        <Button Text="Take Photo"
+                Command="{Binding TakePhotoCommand}" />
+
+        <!-- Dropdown Field for "Assigned To" -->
+        <Picker Title="Assigned To"
+                SelectedItem="{Binding AssignedTo}"
+                ItemsSource="{Binding AssignedToList}">
+        </Picker>
+
         <Grid ColumnDefinitions="*,*" ColumnSpacing="4" RowSpacing="4">
             <Button Text="Save Note"
                     Command="{Binding SaveCommand}" />

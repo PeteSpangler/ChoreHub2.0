@@ -1,27 +1,49 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ChoreHub2._0.Models;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls;
 
 namespace ChoreHub2._0.ViewModels
 {
     internal class NotesViewModel : INotifyPropertyChanged, IQueryAttributable
     {
+        private ObservableCollection<NoteViewModel> _allNotes;
 
-        public ObservableCollection<ViewModels.NoteViewModel> AllNotes { get; private set; }
+        public ObservableCollection<NoteViewModel> AllNotes
+        {
+            get => _allNotes;
+            private set
+            {
+                if (_allNotes != value)
+                {
+                    _allNotes = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ICommand NewCommand { get; }
         public ICommand SelectNoteCommand { get; }
 
         public NotesViewModel()
         {
-            AllNotes = new ObservableCollection<NoteViewModel>(Note.LoadAll()
-                .OrderByDescending(n => n.Priority)
-                .Select(n => new NoteViewModel(n)));
+            LoadAllNotes();
             NewCommand = new AsyncRelayCommand(NewNoteAsync);
             SelectNoteCommand = new AsyncRelayCommand<NoteViewModel>(SelectNoteAsync);
+        }
+
+        private void LoadAllNotes()
+        {
+            var notes = Note.LoadAll()
+                .OrderByDescending(n => n.Priority)
+                .Select(n => new NoteViewModel(n));
+
+            AllNotes = new ObservableCollection<NoteViewModel>(notes);
         }
 
         private async Task NewNoteAsync()
@@ -40,7 +62,7 @@ namespace ChoreHub2._0.ViewModels
             if (query.ContainsKey("deleted"))
             {
                 string noteId = query["deleted"].ToString();
-                NoteViewModel matchedNote = AllNotes.Where((n) => n.Identifier == noteId).FirstOrDefault();
+                NoteViewModel matchedNote = AllNotes.FirstOrDefault(n => n.Identifier == noteId);
 
                 // If note exists, delete it
                 if (matchedNote != null)
@@ -49,7 +71,7 @@ namespace ChoreHub2._0.ViewModels
             else if (query.ContainsKey("saved"))
             {
                 string noteId = query["saved"].ToString();
-                NoteViewModel matchedNote = AllNotes.Where((n) => n.Identifier == noteId).FirstOrDefault();
+                NoteViewModel matchedNote = AllNotes.FirstOrDefault(n => n.Identifier == noteId);
 
                 // If note is found, update it
                 if (matchedNote != null)
@@ -74,10 +96,10 @@ namespace ChoreHub2._0.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName] string propertyName = null)
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

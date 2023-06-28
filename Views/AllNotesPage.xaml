@@ -15,11 +15,11 @@
     </ContentPage.ToolbarItems>
     <!-- Display notes in a list -->
     <CollectionView x:Name="notesCollection" x:FieldModifier="internal"
-                        ItemsSource="{Binding AllNotes}"
-                        Margin="20"
-                        SelectionMode="Single"
-                        SelectionChangedCommand="{Binding SelectNoteCommand}"
-                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+                    ItemsSource="{Binding AllNotes}"
+                    Margin="20"
+                    SelectionMode="Single"
+                    SelectionChangedCommand="{Binding SelectNoteCommand}"
+                    SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
         <!-- Designate how the collection of items are laid out -->
         <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
@@ -32,6 +32,8 @@
                     <Label Text="{Binding Text}" FontSize="22"/>
                     <Label Text="{Binding Priority, StringFormat='Priority: {0:F0}'}" FontSize="22"/>
                     <Label Text="{Binding Date}" FontSize="14" TextColor="Silver"/>
+                    <Label Text="{Binding AssignedTo}" FontSize="14" TextColor="Silver"/>
+                    <!-- Added AssignedTo field -->
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
