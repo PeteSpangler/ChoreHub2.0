@@ -1,8 +1,8 @@
 ﻿namespace ChoreHub2._0.Views
 {
-    public partial class ChoresPage : ContentPage
+    public partial class RegisterPage : ContentPage
     {
-        public ChoresPage()
+        public RegisterPage()
         {
             InitializeComponent();
         }
